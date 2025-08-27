@@ -4,13 +4,16 @@ use dedup_rs::{cli::Cli, find_dups};
 fn main() {
     let cli = Cli::parse();
 
-    let mut num = 1;
+    let mut num = 0;
     match find_dups(&cli.path) {
         Ok(map) => {
             for (k, v) in map {
-                println!("Dup #{}: {}", num, k);
-                for f in v {
-                    println!("\t{}", f.display());
+                println!("Dup #{}: {}", num + 1, k);
+
+                if !cli.name_only {
+                    for f in v {
+                        println!("\t{}", f.display());
+                    }
                 }
                 num += 1;
             }
@@ -18,4 +21,5 @@ fn main() {
         Err(e) => println!("{}", e),
     }
 
+    println!("Found {} duplicates", num);
 }
