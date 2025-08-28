@@ -8,7 +8,10 @@ fn main() {
     match find_dups(&cli.path) {
         Ok(map) => {
             for (k, v) in map {
-                println!("Dup #{}: {}", num + 1, k);
+                if !cli.no_numbering {
+                    print!("Dup #{}: ", num + 1);
+                }
+                println!("{}", k);
 
                 if !cli.name_only {
                     for f in v {
